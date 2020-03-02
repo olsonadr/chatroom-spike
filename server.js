@@ -69,7 +69,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
     // Listen on port
     http.listen(port, function() {
-      console.log(` ~=> Server is a go at ${hostIP}`);
+        console.log(` ~=> Server is a go at ${hostIP}`);
     });
 
 });

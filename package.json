@@ -1,0 +1,30 @@
+{
+  "name": "chatroom-spike",
+  "version": "0.0.0",
+  "description": "spike for the chatroom module of a social media website",
+  "main": "./server.js",
+  "scripts": {
+    "help": "printf \"help\"",
+    "start": "PORT=49999 node server.js",
+    "build": "npm install"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/olsonadr/webdev-final-project.git"
+  },
+  "author": "Nicholas Olson, Kyle Kanwischer",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/olsonadr/chatroom-spike/issues"
+  },
+  "homepage": "https://github.com/olsonadr/chatroom-spike#readme",
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "bufferutil": "^4.0.1",
+    "ejs": "^3.0.1",
+    "express": "^4.17.1",
+    "express-handlebars": "^3.1.0",
+    "socket.io": "^2.3.0",
+    "utf-8-validate": "^5.0.2"
+  }
+}

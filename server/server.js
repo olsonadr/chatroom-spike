@@ -12,8 +12,11 @@ var fs          = require('fs');
 var pIP         = require('public-ip');
 var io          = require('socket.io')(http);
 
+// Babel Compatibility
+var regeneratorRuntime = require("regenerator-runtime");
+
 // Set variables
-const publicDir = path.join(__dirname, 'public');
+const publicDir = path.join(__dirname, '../public');
 const port	    = process.env.PORT || 3000;
 
 // Setup express app engine

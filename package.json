@@ -27,6 +27,8 @@
   "dependencies": {
     "@babel/cli": "^7.8.4",
     "@babel/core": "^7.8.6",
+    "@babel/node": "^7.8.4",
+    "@babel/plugin-transform-spread": "^7.8.3",
     "@babel/preset-env": "^7.8.6",
     "body-parser": "^1.19.0",
     "bufferutil": "^4.0.1",
@@ -40,7 +42,8 @@
     "regenerator-runtime": "^0.13.3",
     "rimraf": "^3.0.2",
     "socket.io": "^2.3.0",
-    "utf-8-validate": "^5.0.2"
+    "utf-8-validate": "^5.0.2",
+    "webpack": "^4.41.6"
   },
   "nodemonConfig": {
     "exec": "npm run dev",
@@ -56,9 +59,8 @@
     ]
   },
   "babel": {
-    "presets": [
-      "@babel/preset-env"
-    ]
+    "presets": [ "@babel/preset-env" ],
+    "plugins": [ "@babel/plugin-transform-spread" ]
   },
   "devDependencies": {
     "babel-core": "^6.26.3",

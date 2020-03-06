@@ -32,6 +32,11 @@ $ pg_ctl start -D '<PATH_TO_DATA_DIR>'
 $ npm start
 ```
 
+## Resources Used
+- https://hackernoon.com/enforcing-a-single-web-socket-connection-per-user-with-node-js-socket-io-and-redis-65f9eb57f66a
+- https://itnext.io/build-a-group-chat-app-in-30-lines-using-node-js-15bfe7a2417b
+- https://www.tutorialspoint.com/postgresql/index.htm
+
 ## Contributing
 Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
 

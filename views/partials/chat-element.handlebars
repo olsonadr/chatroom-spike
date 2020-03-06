@@ -5,7 +5,7 @@
 </form>
 
 <script>
-    var socket = io.connect('{{socketURL}}');
+    var socket = io.connect('/chat');//'/chat');//'{{socketURL}}');
 
     // submit text message without reload/refresh the page
     $('form').submit(function(e){
@@ -14,15 +14,19 @@
         $('#txt').val('');
         return false;
     });
+
     // append the chat text message
     socket.on('chat_message', function(msg){
         $('#messages').append($('<li>').html(msg));
     });
+
     // append text if someone is online
     socket.on('is_online', function(username) {
         $('#messages').append($('<li>').html(username));
     });
-    // ask username
-    var username = prompt('Please tell me your name');
-    socket.emit('username', username);
+
+    // get username
+    // var username = socket.session.username;
+    // var username = prompt('Please tell me your name');
+    socket.emit('chat_join');
 </script>

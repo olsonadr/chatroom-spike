@@ -1,0 +1,59 @@
+<h1>Login Form</h1>
+  <!-- <p>
+    <label for="status">Status: </label>
+    <input type="text" id="status"
+      name="status" value="Disconnected"
+      readonly="readonly" style="width: 300px;" />
+  </p> -->
+  <p>
+    <label for="username">Username: </label>
+    <input type="text" id="username" name="username" value="username" />
+  </p>
+  <p>
+    <label for="token">Password: </label>
+    <input type="text" id="token" name="token" value="password" />
+  </p>
+  <p>
+    <button id="connect" onclick="submitLoginForm()">
+      Submit
+    </button>
+    <button id="signup" onclick="redirectToSignup()">
+      Sign Up
+    </button>
+  </p>
+  <p>
+    <input type="text" id="dest" class="hidden"
+      name="dest" value="/"
+      readonly="readonly" style="width: 300px;" />
+  </p>
+
+
+  <script>
+      let connectButton;
+      let disconnectButton;
+      let socket;
+      let statusInput;
+      let tokenInput;
+
+      let username;
+      let password;
+
+      const submitLoginForm = function() {
+          username = $('#username').val();
+          password = $('#token').val();
+          $.post('/login', { username: username, password: password }, function(data) {
+                                                                        if (typeof data.redirect == 'string') { window.location.href = data.redirect; }});
+      };
+
+      const redirectToSignup = function() {
+          window.location.href = '/signup';
+      };
+
+      document.addEventListener('DOMContentLoaded', () => {
+        connectButton = document.getElementById('connect');
+        disconnectButton = document.getElementById('disconnect');
+        statusInput = document.getElementById('status');
+        tokenInput = document.getElementById('token');
+        usernameInput = document.getElementById('username');
+      });
+  </script>

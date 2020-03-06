@@ -1,4 +1,4 @@
-# chat-spike
+# chatroom-spike
 
 A simple Socket.io chat module with PostgreSQL database user authentication for use in larger social media website project
 

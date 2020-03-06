@@ -3,13 +3,12 @@
 <!-- Site title -->
 <title>{{siteTitle}}</title>
 
-<!-- Import styles -->
-{{#each styles}}
-    <link rel="stylesheet" href="{{src}}">
-{{/each}}
+<!-- Link local style sheets -->
+<link rel="stylesheet" href="/style.css">
+
+<!-- Link remote font style sheets -->
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.11.2/css/all.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto|Roboto+Slab:100">
 
 <!-- Import the jquery script file -->
 <script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
-
-<!-- Import the Socket.io script file -->
-<script src="/socket.io/socket.io.js"></script>

@@ -1,10 +1,16 @@
 {{#section "head"}}
-    {{> chat-html-head}}
+    {{> chat-html-head }}
 {{/section}}
 
-{{> header}}
+{{> header }}
+
+{{> nav-bar-elements }}
 
 <main class="error-container">
+
   <h2>404</h2>
   <h3>Woops!  We couldn't find that page.</h3>
+
+  {{> init-message-modal }}
+
 </main>

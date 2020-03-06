@@ -1,36 +1,24 @@
 <h1>Sign Up Form</h1>
-  <!-- <p>
-    <label for="status">Status: </label>
-    <input type="text" id="status"
-      name="status" value="Disconnected"
-      readonly="readonly" style="width: 300px;" />
-  </p> -->
+
   <p>
     <label for="username">Username: </label>
-    <input type="text" id="username" name="username" value="username" />
+    <input type="text" id="username" name="username" autofocus="true" placeholder="username" />
   </p>
   <p>
     <label for="token">Password: </label>
-    <input type="text" id="token" name="password" value="password" />
+    <input type="text" id="token" name="password" placeholder="password" />
   </p>
   <p>
     <button id="connect" onclick="submitSignupForm()">
       Submit
     </button>
-  </p>
-  <p>
-    <input type="text" id="dest" class="hidden"
-      name="dest" value="/"
-      readonly="readonly" style="width: 300px;" />
+    <button id="cancel" onclick="redirectToLogin()">
+      Cancel
+    </button>
   </p>
 
 
   <script>
-      let connectButton;
-      let disconnectButton;
-      let socket;
-      let statusInput;
-      let tokenInput;
 
       let username;
       let password;
@@ -38,15 +26,28 @@
       const submitSignupForm = function() {
           username = $('#username').val();
           password = $('#token').val();
-          $.post('/signup', { username: username, password: password }, function(data) {
-                                                                            if (typeof data.redirect == 'string') { window.location.href = data.redirect; }});
-      }
+          $.post(   '/signup',
+                    { username: username, password: password },
+                    function(data) {
+                        if (typeof data.redirect == 'string')
+                            { window.location.href = data.redirect; }
+                    }
+                );
+      };
 
-      document.addEventListener('DOMContentLoaded', () => {
-        connectButton = document.getElementById('connect');
-        disconnectButton = document.getElementById('disconnect');
-        statusInput = document.getElementById('status');
-        tokenInput = document.getElementById('token');
-        usernameInput = document.getElementById('username');
+      const redirectToLogin = function() {
+          window.location.href = '/login';
+      };
+
+      $(document).ready(function() {
+          $('#username, #token').keypress(function(e) {
+              if (e.keyCode == 13) {
+                  if ($('#init-message-modal').css('display') == 'block')
+                      { $('#init-message-modal-close-button').click(); }
+                  else
+                      { $('#connect').click(); }
+              }
+          });
       });
+
   </script>

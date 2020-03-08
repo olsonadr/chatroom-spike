@@ -12,7 +12,7 @@ var bodyParser   = require('body-parser');
 var fs           = require('fs');
 var pIP          = require('public-ip');
 var session      = require('express-session');
-var cookieParser = require('cookie-parser')
+var cookieParser = require('cookie-parser');
 
 // Create Express app
 var app	         = express();

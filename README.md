@@ -4,7 +4,7 @@ A simple Socket.io chat module with PostgreSQL database user authentication for 
 
 ## Dependencies
 - node.js >= v13.9.0
-- PostgreSQL >= v12
+- [PostgreSQL](https://www.postgresql.org/ "PostgreSQL Homepage") >= v12
 
 ## Installation
 

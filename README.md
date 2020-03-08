@@ -2,6 +2,9 @@
 
 A simple Socket.io chat module with PostgreSQL database user authentication for use in larger social media website project
 
+# NOTE
+THIS BRANCH DOES NOT AUTHENTICATE USERS OR INTERFACE WITH A DATABASE. ANY LOGIN INFORMATION ON THE LOGIN PAGE WILL ALLOW YOU THROUGH TO THE CHAT PAGE.
+
 ## Dependencies
 - node.js >= v13.9.0
 - [PostgreSQL](https://www.postgresql.org/ "PostgreSQL Homepage") >= v12

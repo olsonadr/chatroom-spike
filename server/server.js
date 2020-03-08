@@ -87,7 +87,7 @@ app.use(cookieParser());
 // // // // // // // // // // // // // // //
 
 // Middleware to Check for User Session Cookie
-const sessionChecker = require('../middleware/check_user_session.js');
+const sessionChecker = function(req, res, next) { next(); } //require('../middleware/check_user_session.js');
 
 // Static Public Directory Middleware
 app.use(express.static(publicDir));

@@ -9,28 +9,8 @@ module.exports = function(app, sessionChecker, context, User) {
             return;
         })
         .post((req, res) => {
-            var username = req.body.username;
-            var password = req.body.password;
-
-            User.findOne({ where: { username: username } })
-                .then((user) => {
-                    if(!user) {
-                        context.initMessage = 'Incorrect username or password!';
-                        res.send({redirect: '/login'});
-                        return;
-                    }
-                    // else if(!user.validPassword(password)) {
-                    else if(!user.vPass(password)) {
-                        context.initMessage = 'Incorrect username or password!';
-                        res.send({redirect: '/login'});
-                        return;
-                    }
-                    else {
-                        req.session.user = user.dataValues;
-                        res.send({redirect: '/chat'});
-                        return;
-                    }
-                });
+            req.session.user = { username: req.body.username };
+            res.send({redirect: '/chat'});
         });
 
 };

@@ -1,4 +1,4 @@
-module.exports = function(app, sessionChecker, context, User) {
+export default function(app, sessionChecker, context, User) {
 
     // Signup Route Middleware
     app.route('/signup')

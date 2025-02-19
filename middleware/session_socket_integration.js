@@ -1,4 +1,4 @@
-module.exports = function(app, io, session) {
+export default function(app, io, session) {
 
     // Create Session Middleware
     var sessionMiddleware = session({
@@ -13,8 +13,12 @@ module.exports = function(app, io, session) {
     });
 
     // Socket.io Chat Socket + Session Middleware Adapter
-    io.use(function(socket, next) {
-        sessionMiddleware(socket.request, socket.request.res, next);
+    var ioSessionFunc = function (socket, next) {
+        sessionMiddleware(socket.request, socket.request.res || {}, next);
+    };
+    io.use(ioSessionFunc);
+    ["/chat"].forEach((element) => {
+        io.of(element).use(ioSessionFunc);
     });
 
     // Use Session Middleware

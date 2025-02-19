@@ -1,147 +1,134 @@
-
-
 // // // // // // // // // // // // // // //
 // // //        DEPENDENCIES        // // //
 // // // // // // // // // // // // // // //
 
 // External Requirements
-var express      = require('express');
-var hb           = require('express-handlebars');
-var path         = require('path');
-var bodyParser   = require('body-parser');
-var fs           = require('fs');
-var pIP          = require('public-ip');
-var session      = require('express-session');
-var cookieParser = require('cookie-parser');
+import express, { static as expressStatic } from "express";
+import hb from "express-handlebars";
+import { join } from "path";
+import bodyParser from "body-parser";
+import fs from "fs";
+import session from "express-session";
+import cookieParser from "cookie-parser";
 
 // Create Express app
-var app	         = express();
+var app = express();
 
 // Futher Requirements
-var http         = require('http').Server(app);
-var io           = require('socket.io')(http);
+import { Server as HttpServer } from "http";
+import { Server as SocketIOServer } from "socket.io";
+
+var http = new HttpServer(app);
+var io = new SocketIOServer(http);
 
 // Babel Compatibility
-var regeneratorRuntime = require('regenerator-runtime');
-
-
+import regeneratorRuntime from "regenerator-runtime";
 
 // // // // // // // // // // // // // // //
 // // //     PROGRAM PARAMETERS     // // //
 // // // // // // // // // // // // // // //
 
 // Set constants
-const publicDir = path.join(__dirname, '../public');
-const port	    = process.env.PORT || 3000;
+const publicDir = join(new URL(".", import.meta.url).pathname, "../public");
+const port = process.env.PORT || 3000;
 
 // Handlebars context for html rendering
 var indexContext = {
-    helpers: {
-        section: function(name, options) {
-            if(!this._sections) this._sections = {};
-            this._sections[name] = options.fn(this);
-            return null;
-        }
+  helpers: {
+    section: function (name, options) {
+      if (!this._sections) this._sections = {};
+      this._sections[name] = options.fn(this);
+      return null;
     },
-    siteTitle:    "Unset",
-    logoSource:   "/BLK_BOARD_logo.jpg",
-    initData:     "",
-    initMessage:  ""
+  },
+  siteTitle: "Unset",
+  logoSource: "/BLK_BOARD_logo.jpg",
+  initData: "",
+  initMessage: "",
 };
-
-
 
 // // // // // // // // // // // // // // //
 // // //           MODELS           // // //
 // // // // // // // // // // // // // // //
 
 // User model for authentication
-var User = require('../models/user.js');
-
-
+import User from "../models/user.js";
 
 // // // // // // // // // // // // // // //
 // // //     UTILITY FUNCTIONS      // // //
 // // // // // // // // // // // // // // //
 
 // Whether a connection should be accepted to a chat room
-const acceptChatConnection = require('../utils/accept_chat_connection');
-
-
+import acceptChatConnection from "../utils/accept_chat_connection.js";
 
 // // // // // // // // // // // // // // //
 // // //     SETUP EXPRESS APP      // // //
 // // // // // // // // // // // // // // //
 
 // Setup Express + Handlebars app engine
-app.engine('handlebars', hb());
-app.set('view engine', 'handlebars');
-app.enable('trust proxy');
+app.engine("handlebars", hb.engine());
+app.set("view engine", "handlebars");
+app.enable("trust proxy");
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cookieParser());
-
-
 
 // // // // // // // // // // // // // // //
 // // //      MISC MIDDLEWARE       // // //
 // // // // // // // // // // // // // // //
 
 // Middleware to Check for User Session Cookie
-const sessionChecker = require('../middleware/check_user_session.js');
+import sessionChecker from "../middleware/check_user_session.js";
+import sessionSocketIntegration from "../middleware/session_socket_integration.js";
+import clearCookies from "../middleware/clear_cookies.js";
+import indexRoute from "../routes/index.js";
+import signupRoute from "../routes/signup.js";
+import loginRoute from "../routes/login.js";
+import chatRoute from "../routes/chat.js";
+import logoutRoute from "../routes/logout.js";
+import notFoundRoute from "../routes/404.js";
+import chatSocketHandling from "../middleware/chat_socket_handling.js";
 
 // Static Public Directory Middleware
-app.use(express.static(publicDir));
+app.use(expressStatic(publicDir));
 
 // Session + Socket.io Integration Middleware
-require('../middleware/session_socket_integration.js')(app, io, session);
-
-// Clear Previously Saved Cookies Middleware
-require('../middleware/clear_cookies.js')(app);
-
-
+sessionSocketIntegration(app, io, session);
+clearCookies(app);
 
 // // // // // // // // // // // // // // //
 // // //       EXPRESS ROUTES       // // //
 // // // // // // // // // // // // // // //
-
 // Index Route Middleware
-require('../routes/index.js')(app, sessionChecker);
+indexRoute(app, sessionChecker);
 
 // Signup Route Middleware
-require('../routes/signup.js')(app, sessionChecker, indexContext, User);
+signupRoute(app, sessionChecker, indexContext, User);
 
 // Login Route Middleware
-require('../routes/login.js')(app, sessionChecker, indexContext, User);
+loginRoute(app, sessionChecker, indexContext, User);
 
 // Chat Route Middleware
-require('../routes/chat.js')(app, indexContext);
+chatRoute(app, indexContext);
 
 // Logout Route Middleware
-require('../routes/logout.js')(app);
+logoutRoute(app);
 
 // 404 Route Middleware
-require('../routes/404.js')(app, indexContext);
-
-
-
-// // // // // // // // // // // // // // //
-// // //    SOCKET.IO MIDDLEWARE    // // //
-// // // // // // // // // // // // // // //
+notFoundRoute(app, indexContext);
 
 // Socket.io Middleware for '/chat' Socket
-require('../middleware/chat_socket_handling.js')(io, acceptChatConnection);
-
-
+chatSocketHandling(io, acceptChatConnection);
 
 // // // // // // // // // // // // // // //
 // // //       START LISTENING      // // //
 // // // // // // // // // // // // // // //
 
 // Get public IP address
-(async () => { return await pIP.v4() + ":" + port; })()
-    .then((hostIP) => {
-        // Then listen on port
-        http.listen(port, function() {
-            console.log(` ~=> Server is a go at ${hostIP}`);
-        });
-    });
+(async () => {
+  return "0.0.0.0:" + port;
+})().then((hostIP) => {
+  // Then listen on port
+  http.listen(port, function () {
+    console.log(` ~=> Server is a go at ${hostIP}`);
+  });
+});

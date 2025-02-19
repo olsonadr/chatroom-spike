@@ -1,4 +1,4 @@
-module.exports = function(app, context) {
+export default function(app, context) {
 
     // 404 Route Middleware
     app.get('*', function(req, res, next) {

@@ -1,4 +1,4 @@
-module.exports = function(app) {
+export default function(app) {
 
     // Check for Previously Saved Cookies Middleware
     app.use((req, res, next) => {

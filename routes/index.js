@@ -1,4 +1,4 @@
-module.exports = function(app, sessionChecker) {
+export default function(app, sessionChecker) {
 
     // Index Route Middleware
     app.get('/', sessionChecker, function(req, res) {

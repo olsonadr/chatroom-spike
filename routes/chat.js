@@ -1,4 +1,4 @@
-module.exports = function(app, context) {
+export default function(app, context) {
 
     // Chat Route Middleware
     app.get('/chat', function(req, res) {

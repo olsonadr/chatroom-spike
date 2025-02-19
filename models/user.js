@@ -1,6 +1,6 @@
 // Includes
-var Sequelize = require('sequelize');
-var bcrypt = require('bcrypt');
+import Sequelize, { STRING } from 'sequelize';
+import { genSaltSync, hashSync, compareSync } from 'bcrypt';
 
 // Create sequelize instance with local database
 var sequelize = new Sequelize('postgres://postgres:password@localhost:5432/chatspike');
@@ -8,24 +8,24 @@ var sequelize = new Sequelize('postgres://postgres:password@localhost:5432/chats
 // setup User model and its fields.
 var User = sequelize.define('users', {
     username: {
-        type: Sequelize.STRING,
+        type: STRING,
         unique: true,
         allowNull: false
     },
     password: {
-        type: Sequelize.STRING,
+        type: STRING,
         allowNull: false
     }
 }, {
     hooks: {
       beforeCreate: (user) => {
-        const salt = bcrypt.genSaltSync();
-        user.password = bcrypt.hashSync(user.password, salt);
+        const salt = genSaltSync();
+        user.password = hashSync(user.password, salt);
       }
     },
     instanceMethods: {
       validPassword: function(password) {
-        return bcrypt.compareSync(password, this.password);
+        return compareSync(password, this.password);
       }
     }
 });
@@ -37,8 +37,8 @@ sequelize.sync()
 
 // Add password method
 User.prototype.vPass = function(password) {
-  return bcrypt.compareSync(password, this.password);
+  return compareSync(password, this.password);
 }
 
 // export User model for use in other files.
-module.exports = User;
+export default User;

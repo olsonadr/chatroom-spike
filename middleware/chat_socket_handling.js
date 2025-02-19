@@ -1,4 +1,4 @@
-module.exports = function(io, acceptChatConnection) {
+export default function(io, acceptChatConnection) {
 
     // Socket.io Middleware for '/chat' Socket
     io.of('/chat')

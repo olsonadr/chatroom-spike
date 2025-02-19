@@ -1,4 +1,4 @@
-module.exports = function(app) {
+export default function(app) {
 
     // Logout Route Middleware
     app.get('/logout', (req, res) => {
